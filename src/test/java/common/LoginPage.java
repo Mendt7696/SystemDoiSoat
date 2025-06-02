@@ -20,11 +20,10 @@ public class LoginPage {
        this.wait = new WebDriverWait(this.driver,Duration.ofSeconds(explicitTimeout));
    }
    //Locator
-    By userName = By.xpath("//*[@type='text']");
-   By password = By.xpath("//*[@type='password']");
-   By clickButton = By.xpath("//*[@type='button']");
-   By loginSuccessfull = By.xpath("//*[@data-pc-section='content']");
-   By loginFail = By.xpath("//*[text()='invalid_grant']");
+    By userName = By.xpath("//*[@name='username']");
+   By password = By.xpath("//*[@name='password']");
+   By clickButton = By.xpath("//*[@type='submit']");
+   By dashBoardIsDisplayed = By.xpath("//*[@class='oxd-topbar-header-breadcrumb']//*[text()='Dashboard']");
 
 
    //Nhap user name
@@ -45,24 +44,16 @@ public class LoginPage {
         WebElement clickLoginButton = this.driver.findElement(clickButton);
         clickLoginButton.click();
     }
-    // ✅ Method lấy text của toast
-    public String getToastMessage_Valid(){
-       this.wait.until(ExpectedConditions.visibilityOfElementLocated(loginSuccessfull));
-       return this.driver.findElement(loginSuccessfull).getText();
-    }
-    public String getToastMessage_Fail(){
-        this.wait.until(ExpectedConditions.visibilityOfElementLocated(loginFail));
-        return  this.driver.findElement(loginFail).getText();
-    }
 
-    // Phương thức để kiểm tra hiển thị text HỆ THỐNG ĐỐI SOÁT trên Dashboard sau khi đăng nhập thành công
-    public Boolean isDashboardDisplayed(){
+    // Phương thức để kiểm tra Login thành công
+    public boolean isDashboardDisplayed(){
         try{
-            this.wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='HỆ THỐNG ĐỐI SOÁT ']")));
-            WebElement dashboardText = this.driver.findElement(By.xpath("//*[text()='HỆ THỐNG ĐỐI SOÁT ']"));
-            return dashboardText.isDisplayed();
+            this.wait.until(ExpectedConditions.visibilityOfElementLocated(dashBoardIsDisplayed));
+            WebElement dashboardText = this.driver.findElement(dashBoardIsDisplayed);
+            System.out.println(dashboardText);
+            return  dashboardText.isDisplayed();
         } catch (RuntimeException e) {
-            System.out.println("Timeout: Không thể tìm thấy text 'HỆ THỐNG ĐỐI SOÁT' trong thời gian chờ");
+            System.out.println("Timeout: Không thể tìm thấy text 'DashBoard' trong thời gian chờ");
             return false;
         }
         catch (Exception e) {
@@ -70,4 +61,11 @@ public class LoginPage {
             return false;
         }
     }
+    /*try {
+        // code có thể gây lỗi
+    } catch (Exception e) {
+        System.out.printlnk(e.getMessage());  // In ra thông điệp lỗi
+        e.printStackTrace();                // In ra toàn bộ stack trace (vết lỗi)
+    }*/
+
 }

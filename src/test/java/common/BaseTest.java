@@ -2,8 +2,6 @@ package common;
 
 import config.ConfigReader;
 import driver.DriverManager;
-import org.junit.After;
-import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,12 +12,14 @@ public class BaseTest {
 
     //Project Object
     public LoginPage login;
+    //public DashboardPage dashboard;
+    public  AdminPage admin;
 
     //WebDriver
     WebDriver driver;
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         DriverManager.initDriver();
         this.driver = DriverManager.getDriver();
 
@@ -32,9 +32,21 @@ public class BaseTest {
         this.driver.get(url);
 
         this.login = new LoginPage(this.driver);
+        // this.dashboard = new DashboardPage(this.driver);
+        this.admin = new AdminPage(this.driver);
     }
+
+    // ✅ Method dùng để login khi cần
+    public void loginToApplication() {
+        this.login.Login_userName("Admin");
+
+        this.login.Login_Password("admin123");
+
+        this.login.Click_LoginButton();
+    }
+
     @AfterMethod
-    public void teardown(){
+    public void teardown() {
         DriverManager.quitDriver();
     }
 }

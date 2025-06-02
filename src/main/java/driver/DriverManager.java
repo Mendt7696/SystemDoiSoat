@@ -16,6 +16,7 @@ public class DriverManager {
     public static void initDriver() {
         String browserName = ConfigReader.getProperty("Browser");
         Browser browser = Browser.valueOf(browserName.toUpperCase());
+        
 
         // Dùng TargetFactory để tạo WebDriver
         TargetFactory factory = new TargetFactory();
